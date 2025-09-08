@@ -11,12 +11,12 @@ builds:
     entry: "example.ato:Example"
 
 package:
-  identifier: "johncharris/rt-rtl8156bg"
-  repository: "https://github.com/johncharris/rt-rtl8156bg"
-  version: "0.1.0"  # recommended first version
+  identifier: johncharris/rt-rtl8156bg
+  repository: https://github.com/johncharris/rt-rtl8156bg
+  homepage: https://github.com/johncharris/rt-rtl8156BG
+  version: "0.1.0"
   authors:
-    - name: "John Harris"
-      email: "john@ziatech.net"
+    - name: John Harris
+      email: john@ziatech.net
   summary: "RTL8156 Ethernet Controller"
   license: "MIT license"
-  homepage: # fill me!
