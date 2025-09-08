@@ -1,0 +1,39 @@
+#pragma experiment("TRAITS")
+import has_designator_prefix
+import has_part_picked
+import is_atomic_part
+
+component HANRUN_HR911130A_package:
+    trait is_atomic_part<manufacturer="HANRUN", partnumber="HR911130A", footprint="RJ45-TH_HR911130A.kicad_mod", symbol="HR911130A.kicad_sym", model="RJ45-TH_HR911130A.STEP">
+    trait has_part_picked::by_supplier<supplier_id="lcsc", supplier_partno="C54408", manufacturer="HANRUN", partno="HR911130A">
+    trait has_designator_prefix<prefix="RJ">
+
+    # Transformer primary pins (to PHY)
+    # Based on typical HR911130A pinout:
+    # P1/P2 = MDI0 pair
+    # P3/P6 = MDI1 pair  
+    # P4/P5 = MDI2 pair
+    # P7/P10 = MDI3 pair
+    
+    signal MDI0pos ~ pin P1
+    signal MDI0neg ~ pin P2
+    signal MDI1pos ~ pin P3
+    signal MDI1neg ~ pin P6
+    signal MDI2pos ~ pin P4
+    signal MDI2neg ~ pin P5
+    signal MDI3pos ~ pin P7
+    signal MDI3neg ~ pin P10
+    
+    # Center tap pins (typically connected to VDD or left floating)
+    pin P8
+    pin P9
+    
+    # LED pins (integrated LEDs in MagJack)
+    signal pin11 ~ pin 11  # Green LED cathode
+    signal pin12 ~ pin 12  # Green LED anode
+    signal pin13 ~ pin 13  # Yellow LED cathode
+    signal pin14 ~ pin 14  # Yellow LED anode
+    
+    # Shield connections
+    signal SHIELD0 ~ pin SHIELD0
+    signal SHIELD1 ~ pin SHIELD1

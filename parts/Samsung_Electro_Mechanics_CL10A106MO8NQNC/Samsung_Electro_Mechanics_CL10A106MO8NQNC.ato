@@ -1,0 +1,18 @@
+#pragma experiment("TRAITS")
+import has_designator_prefix
+import has_part_picked
+import is_atomic_part
+import is_auto_generated
+
+component Samsung_Electro_Mechanics_CL10A106MO8NQNC_package:
+    # This trait marks this file as auto-generated
+    # If you want to manually change it, remove the trait
+    trait is_auto_generated<system="ato_part", source="easyeda:C92487", date="2025-09-08T15:35:39.846641+00:00", checksum="183032e81f75d6b0deee6c8451526ef05306fc3033431198cc56a9111825f928">
+
+    trait is_atomic_part<manufacturer="Samsung Electro-Mechanics", partnumber="CL10A106MO8NQNC", footprint="C0603.kicad_mod", symbol="CL10A106MO8NQNC.kicad_sym", model="C0603_L1.6-W0.8-H0.8.step">
+    trait has_part_picked::by_supplier<supplier_id="lcsc", supplier_partno="C92487", manufacturer="Samsung Electro-Mechanics", partno="CL10A106MO8NQNC">
+    trait has_designator_prefix<prefix="C">
+
+    # pins
+    pin 1
+    pin 2

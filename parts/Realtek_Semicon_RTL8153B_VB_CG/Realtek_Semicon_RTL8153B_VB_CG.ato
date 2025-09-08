@@ -1,0 +1,57 @@
+#pragma experiment("TRAITS")
+import has_designator_prefix
+import has_part_picked
+import is_atomic_part
+import is_auto_generated
+
+component Realtek_Semicon_RTL8153B_VB_CG_package:
+    # This trait marks this file as auto-generated
+    # If you want to manually change it, remove the trait
+    trait is_auto_generated<system="ato_part", source="easyeda:C2802072", date="2025-09-08T16:13:24.402273+00:00", checksum="48f2be127f9b65127f8c4f286fbcdbe2f9472c8eb136803d0546588e18cf44de">
+
+    trait is_atomic_part<manufacturer="Realtek Semicon", partnumber="RTL8153B-VB-CG", footprint="QFN-40_L5.0-W5.0-P0.40-BL-EP3.7.kicad_mod", symbol="RTL8153B-VB-CG.kicad_sym", model="QFN-40_L5.0-W5.0-H0.9-P0.4-BL-EP.step">
+    trait has_part_picked::by_supplier<supplier_id="lcsc", supplier_partno="C2802072", manufacturer="Realtek Semicon", partno="RTL8153B-VB-CG">
+    trait has_designator_prefix<prefix="U">
+
+    # pins
+    signal AVDD10 ~ pin 3
+    AVDD10 ~ pin 8
+    AVDD10 ~ pin 37
+    signal AVDD33 ~ pin 11
+    AVDD33 ~ pin 20
+    AVDD33 ~ pin 39
+    AVDD33 ~ pin 40
+    signal CKXTAL1 ~ pin 35
+    signal CKXTAL2 ~ pin 36
+    signal DVDD10 ~ pin 34
+    signal DVDD10_UPS ~ pin 22
+    signal DVDD33 ~ pin 23
+    DVDD33 ~ pin 33
+    signal EECS ~ pin 31
+    signal EEDI_SPISDI_ENSWREG ~ pin 25
+    signal EEDO_LED2_SPISDO_LANWAKEB_GPIO ~ pin 24
+    signal EESK_LED1_SPISCK ~ pin 30
+    signal EP ~ pin 41
+    signal GND ~ pin 29
+    signal LED0_SPICSB ~ pin 32
+    signal MDIN0 ~ pin 2
+    signal MDIN1 ~ pin 5
+    signal MDIN2 ~ pin 7
+    signal MDIN3 ~ pin 10
+    signal MDIP0 ~ pin 1
+    signal MDIP1 ~ pin 4
+    signal MDIP2 ~ pin 6
+    signal MDIP3 ~ pin 9
+    signal REGOUT ~ pin 28
+    signal RSET ~ pin 38
+    signal U2DM ~ pin 17
+    signal U2DP ~ pin 18
+    signal U2VDD10 ~ pin 19
+    signal U3SSRXN ~ pin 15
+    signal U3SSRXP ~ pin 16
+    signal U3SSTXN ~ pin 12
+    signal U3SSTXP ~ pin 13
+    signal U3VDD10 ~ pin 14
+    signal VDD5 ~ pin 21
+    signal VDDREG5 ~ pin 27
+    signal VDDREG33 ~ pin 26

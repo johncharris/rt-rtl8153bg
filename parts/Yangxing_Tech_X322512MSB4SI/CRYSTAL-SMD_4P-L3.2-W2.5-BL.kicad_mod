@@ -1,0 +1,187 @@
+(footprint "Yangxing_Tech_X322512MSB4SI:CRYSTAL-SMD_4P-L3.2-W2.5-BL"
+    (layer "F.Cu")
+    (descr "")
+    (version 20241229)
+    (generator "faebryk")
+    (generator_version "v5")
+    (tedit "5DC5F6A4")
+    (property "Reference" "REF**"
+        (at 0 -4.85 0)
+        (layer "F.SilkS")
+        (hide no)
+        (uuid "fde4c976-6bd0-4962-a7d4-e022329ea8fd")
+        (effects
+            (font
+                (size 1 1)
+                (thickness 0.15)
+            )
+        )
+    )
+    (property "Value" "CRYSTAL-SMD_4P-L3.2-W2.5-BL"
+        (at 0 4.85 0)
+        (layer "F.Fab")
+        (hide no)
+        (uuid "d8e1d411-a0d7-4a3d-8e7c-e1465213b856")
+        (effects
+            (font
+                (size 1 1)
+                (thickness 0.15)
+            )
+        )
+    )
+    (property "checksum" "cfd5af4951d4a01991b5e8e9cbf2fd6e2161dcb708a010fc468fc9f70a199b87"
+        (at 0 0 0)
+        (layer "User.9")
+        (hide no)
+        (uuid "998d1df8-747e-49ff-a0c0-5a8d62b38592")
+        (effects
+            (font
+                (size 0.125 0.125)
+                (thickness 0.01875)
+            )
+            (hide yes)
+        )
+    )
+    (attr smd)
+    (fp_line
+        (start -2.03 1.68)
+        (end -2.03 -1.68)
+        (stroke
+            (width 0.15)
+            (type solid)
+        )
+        (layer "F.SilkS")
+        (uuid "1ee36717-2679-49f2-85da-cd871734fb09")
+    )
+    (fp_line
+        (start -2.03 -1.68)
+        (end 2.03 -1.68)
+        (stroke
+            (width 0.15)
+            (type solid)
+        )
+        (layer "F.SilkS")
+        (uuid "74f7ead8-2ef1-4ac7-a5e9-23eb46eaf49e")
+    )
+    (fp_line
+        (start 2.03 -1.68)
+        (end 2.03 1.68)
+        (stroke
+            (width 0.15)
+            (type solid)
+        )
+        (layer "F.SilkS")
+        (uuid "735c91a2-6c3e-4c75-8004-84585b872b18")
+    )
+    (fp_line
+        (start 2.03 1.68)
+        (end -2.03 1.68)
+        (stroke
+            (width 0.15)
+            (type solid)
+        )
+        (layer "F.SilkS")
+        (uuid "5d7df3fb-bf0f-40a6-b63f-ab7fca4a3be0")
+    )
+    (fp_line
+        (start -2.26 0.25)
+        (end -2.26 1.91)
+        (stroke
+            (width 0.15)
+            (type solid)
+        )
+        (layer "F.SilkS")
+        (uuid "6e6b9f3f-2734-46ae-97ca-4c75064df85f")
+    )
+    (fp_line
+        (start -2.26 1.91)
+        (end -0.4 1.91)
+        (stroke
+            (width 0.15)
+            (type solid)
+        )
+        (layer "F.SilkS")
+        (uuid "1c16f403-8452-42a4-b860-8af5668879b2")
+    )
+    (fp_circle
+        (center -1.6 1.25)
+        (end -1.57 1.25)
+        (stroke
+            (width 0.06)
+            (type solid)
+        )
+        (fill no)
+        (layer "F.Fab")
+        (uuid "c6ddfc19-b21d-4f57-bc0d-8986edfc800c")
+    )
+    (fp_circle
+        (center -1.27 0.89)
+        (end -1.14 0.89)
+        (stroke
+            (width 0.25)
+            (type solid)
+        )
+        (fill no)
+        (layer "Cmts.User")
+        (uuid "a70d9329-5f0f-414f-a7a2-0f8ace7212d6")
+    )
+    (fp_text user "%R"
+        (at 0 0 0)
+        (layer "F.Fab")
+        (uuid "61cc2c26-ecda-4132-9535-a88fbcd23317")
+        (effects
+            (font
+                (size 1 1)
+                (thickness 0.15)
+            )
+        )
+        (unlocked no)
+    )
+    (fp_text user "${REFERENCE}"
+        (at 0 -4.85 0)
+        (layer "F.SilkS")
+        (uuid "fde4c976-6bd0-4962-a7d4-e022329ea8fd")
+        (effects
+            (font
+                (size 1 1)
+                (thickness 0.15)
+            )
+        )
+        (unlocked no)
+    )
+    (pad "1" smd rect
+        (at -1.1 0.85 0)
+        (size 1.4 1.2)
+        (layers "F.Cu" "F.Paste" "F.Mask")
+        (uuid "851057f2-b3d1-4122-a405-d45cb5cbec90")
+    )
+    (pad "2" smd rect
+        (at 1.1 0.85 0)
+        (size 1.4 1.2)
+        (layers "F.Cu" "F.Paste" "F.Mask")
+        (uuid "9f3bd5c3-7d74-49a2-b579-2cae48330040")
+    )
+    (pad "3" smd rect
+        (at 1.1 -0.85 0)
+        (size 1.4 1.2)
+        (layers "F.Cu" "F.Paste" "F.Mask")
+        (uuid "e501429b-0820-4605-8992-799d86614bae")
+    )
+    (pad "4" smd rect
+        (at -1.1 -0.85 0)
+        (size 1.4 1.2)
+        (layers "F.Cu" "F.Paste" "F.Mask")
+        (uuid "6624eb18-4bd8-41b7-bb2b-1691cd0699af")
+    )
+    (model "${KIPRJMOD}/../../parts/Yangxing_Tech_X322512MSB4SI/OSC-SMD_L3.2-W1.5-H0.8.STEP"
+        (offset
+            (xyz 0 0 0)
+        )
+        (scale
+            (xyz 1 1 1)
+        )
+        (rotate
+            (xyz 0 0 0)
+        )
+    )
+)

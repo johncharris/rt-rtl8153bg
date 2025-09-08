@@ -1,0 +1,256 @@
+#pragma experiment("BRIDGE_CONNECT")
+#pragma experiment("FOR_LOOP")
+
+from "parts/Realtek_Semicon_RTL8153B_VB_CG/Realtek_Semicon_RTL8153B_VB_CG.ato" import Realtek_Semicon_RTL8153B_VB_CG_package
+from "parts/HANRUN_HR911130A/HANRUN_HR911130A.ato" import HANRUN_HR911130A_package
+from "parts/Yangxing_Tech_X322525MOB4SI/Yangxing_Tech_X322525MOB4SI.ato" import Yangxing_Tech_X322525MOB4SI_package 
+import Resistor, Capacitor
+import USB3, Ethernet, DifferentialPair, ElectricPower, ElectricLogic, I2C
+
+module Rtl8156bg:
+    """
+    RTL8153B USB 3.0 to 1G Ethernet Controller
+    """
+    
+    ic = new Realtek_Semicon_RTL8153B_VB_CG_package
+    magjack = new HANRUN_HR911130A_package
+    
+    # Interfaces
+    usb3 = new USB3
+    i2c = new I2C
+    # Ethernet is handled internally through the integrated MagJack RJ45
+    
+    # Power supplies for RTL8153B
+    # 3.3V external supply
+    power_3v3 = new ElectricPower
+    assert power_3v3.voltage within 3.0V to 3.6V
+    
+    # 5V supply (for internal regulator)
+    power_5v = new ElectricPower
+    assert power_5v.voltage within 4.75V to 5.5V
+    
+    # USB3 connections
+    usb3.usb3_if.usb_if.d.p.line ~ ic.U2DP
+    usb3.usb3_if.usb_if.d.n.line ~ ic.U2DM
+    usb3.usb3_if.rx.p.line ~ ic.U3SSRXP
+    usb3.usb3_if.rx.n.line ~ ic.U3SSRXN
+    usb3.usb3_if.tx.p.line ~ ic.U3SSTXP
+    usb3.usb3_if.tx.n.line ~ ic.U3SSTXN
+    
+    # Ethernet MDI connections through MagJack
+    # Connect RTL8156BG to MagJack transformer primary side
+    ic.MDIP0 ~ magjack.MDI0pos
+    ic.MDIN0 ~ magjack.MDI0neg
+    ic.MDIP1 ~ magjack.MDI1pos
+    ic.MDIN1 ~ magjack.MDI1neg
+    ic.MDIP2 ~ magjack.MDI2pos
+    ic.MDIN2 ~ magjack.MDI2neg
+    ic.MDIP3 ~ magjack.MDI3pos
+    ic.MDIN3 ~ magjack.MDI3neg
+    
+    # The MagJack handles the transformer isolation and connects to RJ45
+    # External Ethernet interface is now through the MagJack RJ45 connector
+    
+    # LED connections with current limiting resistors
+    # Green LED (Link/Activity) - typically LED0
+    led_green_r = new Resistor
+    led_green_r.resistance = 330ohm +/- 5%  # (3.3V - 2.0V) / 4mA = 325 ohm
+    led_green_r.package = "0402"
+    ic.LED0_SPICSB ~> led_green_r ~> magjack.pin12  # Green LED anode
+    magjack.pin11 ~ ic.GND  # Green LED cathode
+    
+    # Yellow LED (Speed) - typically LED1
+    led_yellow_r = new Resistor
+    led_yellow_r.resistance = 330ohm +/- 5%  # (3.3V - 2.0V) / 4mA = 325 ohm
+    led_yellow_r.package = "0402"
+    ic.EESK_LED1_SPISCK ~> led_yellow_r ~> magjack.pin14  # Yellow LED anode
+    magjack.pin13 ~ ic.GND  # Yellow LED cathode
+    
+    # LED2 exposed for external use if needed
+    led2 = new ElectricLogic
+    led2.line ~ ic.EEDO_LED2_SPISDO_LANWAKEB_GPIO
+    
+    # I2C/EEPROM interface
+    i2c.scl.line ~ ic.EECS
+    i2c.sda.line ~ ic.EEDI_SPISDI_ENSWREG
+    
+    # Power connections for RTL8153B
+    # 3.3V supplies
+    power_3v3.hv ~ ic.AVDD33
+    power_3v3.hv ~ ic.DVDD33
+    power_3v3.hv ~ ic.VDDREG33
+    
+    # 5V supplies
+    power_5v.hv ~ ic.VDD5
+    power_5v.hv ~ ic.VDDREG5
+    
+    # 1.0V supplies (internally generated from regulators)
+    # These pins are outputs from internal LDO - just add decoupling caps
+    
+    # Ground connections
+    power_3v3.lv ~ ic.GND
+    power_5v.lv ~ ic.GND
+    usb3.usb3_if.gnd_drain ~ ic.GND
+    ic.EP ~ ic.GND  # Exposed pad to ground
+    
+    # MagJack shield grounding
+    magjack.SHIELD0 ~ ic.GND
+    magjack.SHIELD1 ~ ic.GND
+    
+    # Crystal oscillator - 25MHz YXC X322525MOB4SI
+    crystal = new Yangxing_Tech_X322525MOB4SI_package
+    
+    # Connect crystal between XTAL pins
+    ic.CKXTAL1 ~ crystal.OSC1
+    ic.CKXTAL2 ~ crystal.OSC2
+    
+    # Connect crystal ground
+    crystal.GND ~ ic.GND
+    
+    # Load capacitors for crystal (CL = 12pF, so use ~18pF each)
+    xtal_caps = new Capacitor[2]
+    for cap in xtal_caps:
+        cap.capacitance = 18pF +/- 10%
+        cap.package = "0402"
+        cap.max_voltage = 50V
+    
+    crystal.OSC1 ~> xtal_caps[0] ~> ic.GND
+    crystal.OSC2 ~> xtal_caps[1] ~> ic.GND
+    
+    # RSET resistor - 10k 1%
+    rset = new Resistor
+    rset.resistance = 10kohm +/- 1%
+    rset.package = "0402"
+    ic.RSET ~> rset ~> ic.GND
+    
+    # Individual decoupling capacitors for each power pin
+    # This provides optimal power supply filtering for each pin
+    
+    # AVDD10 pins (3 pins: 3, 8, 37) - Analog 1.0V
+    avdd10_caps = new Capacitor[3]
+    for cap in avdd10_caps:
+        cap.capacitance = 100nF +/- 20%
+        cap.package = "0402"
+        cap.max_voltage = 6.3V
+    
+    # Connect each AVDD10 pin individually (all tied together in part)
+    ic.AVDD10 ~> avdd10_caps[0] ~> ic.GND
+    ic.AVDD10 ~> avdd10_caps[1] ~> ic.GND  
+    ic.AVDD10 ~> avdd10_caps[2] ~> ic.GND
+    
+    # AVDD33 pins (4 pins: 11, 20, 39, 40) - Analog 3.3V
+    avdd33_caps = new Capacitor[4]
+    for cap in avdd33_caps:
+        cap.capacitance = 100nF +/- 20%
+        cap.package = "0402"
+        cap.max_voltage = 16V
+    
+    # Connect each AVDD33 pin individually
+    ic.AVDD33 ~> avdd33_caps[0] ~> ic.GND
+    ic.AVDD33 ~> avdd33_caps[1] ~> ic.GND
+    ic.AVDD33 ~> avdd33_caps[2] ~> ic.GND
+    ic.AVDD33 ~> avdd33_caps[3] ~> ic.GND
+    
+    # DVDD pins - Digital supplies
+    dvdd10_cap = new Capacitor
+    dvdd10_cap.capacitance = 100nF +/- 20%
+    dvdd10_cap.package = "0402"
+    dvdd10_cap.max_voltage = 6.3V
+    ic.DVDD10 ~> dvdd10_cap ~> ic.GND
+    
+    dvdd10_ups_cap = new Capacitor
+    dvdd10_ups_cap.capacitance = 100nF +/- 20%
+    dvdd10_ups_cap.package = "0402" 
+    dvdd10_ups_cap.max_voltage = 6.3V
+    ic.DVDD10_UPS ~> dvdd10_ups_cap ~> ic.GND
+    
+    dvdd33_caps = new Capacitor[2]
+    for cap in dvdd33_caps:
+        cap.capacitance = 100nF +/- 20%
+        cap.package = "0402"
+        cap.max_voltage = 16V
+    ic.DVDD33 ~> dvdd33_caps[0] ~> ic.GND
+    ic.DVDD33 ~> dvdd33_caps[1] ~> ic.GND
+    
+    # USB VDD pins - USB interface supplies
+    u2vdd10_cap = new Capacitor
+    u2vdd10_cap.capacitance = 100nF +/- 20%
+    u2vdd10_cap.package = "0402"
+    u2vdd10_cap.max_voltage = 6.3V
+    ic.U2VDD10 ~> u2vdd10_cap ~> ic.GND
+    
+    u3vdd10_cap = new Capacitor  
+    u3vdd10_cap.capacitance = 100nF +/- 20%
+    u3vdd10_cap.package = "0402"
+    u3vdd10_cap.max_voltage = 6.3V
+    ic.U3VDD10 ~> u3vdd10_cap ~> ic.GND
+    
+    # 5V supply pins
+    vdd5_cap = new Capacitor
+    vdd5_cap.capacitance = 100nF +/- 20%
+    vdd5_cap.package = "0402"
+    vdd5_cap.max_voltage = 16V
+    power_5v.hv ~> vdd5_cap ~> power_5v.lv
+    
+    vddreg5_cap = new Capacitor
+    vddreg5_cap.capacitance = 100nF +/- 20%
+    vddreg5_cap.package = "0402"
+    vddreg5_cap.max_voltage = 16V
+    power_5v.hv ~> vddreg5_cap ~> power_5v.lv
+    
+    # 3.3V regulator supply
+    vddreg33_cap = new Capacitor
+    vddreg33_cap.capacitance = 100nF +/- 20%
+    vddreg33_cap.package = "0402"
+    vddreg33_cap.max_voltage = 16V
+    power_3v3.hv ~> vddreg33_cap ~> power_3v3.lv
+    
+    # Internal regulator output (leave floating with cap to ground)
+    regout_cap = new Capacitor
+    regout_cap.capacitance = 1uF +/- 20%
+    regout_cap.package = "0603"
+    regout_cap.max_voltage = 6.3V
+    ic.REGOUT ~> regout_cap ~> ic.GND
+    
+    # Bulk capacitors
+    bulk_3v3 = new Capacitor
+    bulk_3v3.capacitance = 10uF +/- 20%
+    bulk_3v3.package = "0603"
+    bulk_3v3.max_voltage = 16V
+    power_3v3.hv ~> bulk_3v3 ~> power_3v3.lv
+    
+    bulk_5v = new Capacitor
+    bulk_5v.capacitance = 10uF +/- 20%
+    bulk_5v.package = "0603"
+    bulk_5v.max_voltage = 16V
+    power_5v.hv ~> bulk_5v ~> power_5v.lv
+
+module Example:
+    """
+    Example usage of RTL8153B USB to Ethernet controller with integrated MagJack
+    """
+    
+    # Power supplies for RTL8153B
+    power_3v3 = new ElectricPower
+    power_5v = new ElectricPower
+    
+    # USB interface
+    usb = new USB3
+    
+    # I2C for configuration
+    i2c = new I2C
+    
+    # RTL8153B controller with integrated MagJack
+    rtl8153b = new Rtl8156bg
+    
+    # Connect interfaces
+    usb ~ rtl8153b.usb3
+    i2c ~ rtl8153b.i2c
+    
+    # Connect power supplies
+    power_3v3 ~ rtl8153b.power_3v3
+    power_5v ~ rtl8153b.power_5v
+    
+    # Optional: Connect status LEDs
+    # led_speed_indicator ~ rtl8156bg.led_speed
+    # led_link_indicator ~ rtl8156bg.led_link

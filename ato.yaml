@@ -1,0 +1,22 @@
+requires-atopile: "^0.12.3"
+
+paths:
+  src: ./
+  layout: ./layouts
+
+builds:
+  default:
+    entry: "rt_rtl8156bg.ato:Rtl8156bg"
+  example:
+    entry: "example.ato:Example"
+
+package:
+  identifier: "johncharris/rt-rtl8156bg"
+  repository: "https://github.com/johncharris/rt-rtl8156bg"
+  version: "0.1.0"  # recommended first version
+  authors:
+    - name: "John Harris"
+      email: "john@ziatech.net"
+  summary: "RTL8156 Ethernet Controller"
+  license: "MIT license"
+  homepage: # fill me!

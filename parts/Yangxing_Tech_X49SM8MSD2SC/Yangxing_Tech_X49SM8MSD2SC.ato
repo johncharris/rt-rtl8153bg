@@ -1,0 +1,20 @@
+#pragma experiment("TRAITS")
+import has_designator_prefix
+import has_part_picked
+import is_atomic_part
+import is_auto_generated
+
+component Yangxing_Tech_X49SM8MSD2SC_package:
+    """HC-49SMD 8MHZ 20PF 20PPM"""
+
+    # This trait marks this file as auto-generated
+    # If you want to manually change it, remove the trait
+    trait is_auto_generated<system="ato_part", source="easyeda:C12674", date="2025-09-08T16:56:03.563070+00:00", checksum="723998797e196db2bc136ec102019a1887aa90470d6c1cfe9972c13de5e21e46">
+
+    trait is_atomic_part<manufacturer="Yangxing Tech", partnumber="X49SM8MSD2SC", footprint="CRYSTAL-SMD_L11.5-W4.8-LS12.7.kicad_mod", symbol="X49SM8MSD2SC.kicad_sym", model="HC-49S_L11.4-W1.8-H3.0-LS12.7.step">
+    trait has_part_picked::by_supplier<supplier_id="lcsc", supplier_partno="C12674", manufacturer="Yangxing Tech", partno="X49SM8MSD2SC">
+    trait has_designator_prefix<prefix="X">
+
+    # pins
+    signal OSC1 ~ pin 1
+    signal OSC2 ~ pin 2
