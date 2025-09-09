@@ -1,6 +1,6 @@
 """Example usage of the rt-rtl8156bg package."""
 
-from "rt_rtl8156bg.ato" import Rtl8156bg
+from "rt_rtl8153bg.ato" import Rtl8153bg
 
 module Example:
-    blah = new Rtl8156bg
+    blah = new Rtl8153bg

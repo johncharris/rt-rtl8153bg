@@ -7,7 +7,7 @@ from "parts/Yangxing_Tech_X322525MOB4SI/Yangxing_Tech_X322525MOB4SI.ato" import 
 import Resistor, Capacitor
 import USB3, Ethernet, DifferentialPair, ElectricPower, ElectricLogic, I2C
 
-module Rtl8156bg:
+module Rtl8153bg:
     """
     RTL8153B USB 3.0 to 1G Ethernet Controller
     """
@@ -38,15 +38,23 @@ module Rtl8156bg:
     usb3.usb3_if.tx.n.line ~ ic.U3SSTXN
     
     # Ethernet MDI connections through MagJack
-    # Connect RTL8156BG to MagJack transformer primary side
+    # Connect RTL8153BG to MagJack transformer primary side
     ic.MDIP0 ~ magjack.MDI0pos
+    ic.MDIP0.override_net_name = "MDI0_P"
     ic.MDIN0 ~ magjack.MDI0neg
+    ic.MDIN0.override_net_name = "MDI0_N"
     ic.MDIP1 ~ magjack.MDI1pos
+    ic.MDIP1.override_net_name = "MDI1_P"
     ic.MDIN1 ~ magjack.MDI1neg
+    ic.MDIN1.override_net_name = "MDI1_N"
     ic.MDIP2 ~ magjack.MDI2pos
+    ic.MDIP2.override_net_name = "MDI2_P"
     ic.MDIN2 ~ magjack.MDI2neg
+    ic.MDIN2.override_net_name = "MDI2_N"
     ic.MDIP3 ~ magjack.MDI3pos
+    ic.MDIP3.override_net_name = "MDI3_P"
     ic.MDIN3 ~ magjack.MDI3neg
+    ic.MDIN3.override_net_name = "MDI3_N"
     
     # The MagJack handles the transformer isolation and connects to RJ45
     # External Ethernet interface is now through the MagJack RJ45 connector
@@ -241,7 +249,7 @@ module Example:
     i2c = new I2C
     
     # RTL8153B controller with integrated MagJack
-    rtl8153b = new Rtl8156bg
+    rtl8153b = new Rtl8153bg
     
     # Connect interfaces
     usb ~ rtl8153b.usb3
@@ -252,5 +260,5 @@ module Example:
     power_5v ~ rtl8153b.power_5v
     
     # Optional: Connect status LEDs
-    # led_speed_indicator ~ rtl8156bg.led_speed
-    # led_link_indicator ~ rtl8156bg.led_link
+    # led_speed_indicator ~ rtl8153bg.led_speed
+    # led_link_indicator ~ rtl8153bg.led_link
